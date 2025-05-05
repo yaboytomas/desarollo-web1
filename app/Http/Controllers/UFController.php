@@ -17,7 +17,10 @@ class UFController extends Controller
     {
         try {
             // API de SBIF (Sistema Bancario de Información Financiera)
-            $response = Http::timeout(10)->get('https://mindicador.cl/api/uf');
+            // Desactivar verificación SSL para entornos de desarrollo
+            $response = Http::withOptions([
+                'verify' => false, // Esto deshabilita la verificación SSL
+            ])->timeout(10)->get('https://mindicador.cl/api/uf');
             
             if ($response->successful()) {
                 $data = $response->json();
